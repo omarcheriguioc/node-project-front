@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import jwt from 'jwt-decode';
 
 import {STORAGE_KEY, URL} from '../settings/settings';
 import { Form, Checkbox, Button, Card, Icon, Segment} from "semantic-ui-react";
+import { Redirect } from "react-router-dom";
 
 export default function Login() {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
@@ -13,10 +15,6 @@ export default function Login() {
     password: ""
   });
   const [auth, setAuth] = useState(false);
-
-  const saveTokenInLocalstorage = token => {
-    localStorage.setItem(STORAGE_KEY, token);
-  };
 
   const handleSave = user => {
     console.log("handleSave user", user);
@@ -92,9 +90,10 @@ export default function Login() {
       .post(URL+"/login", connection, config)
         .then(res => {
           console.log("res.data", res.data);
-          saveTokenInLocalstorage(res.data.token);
+          localStorage.setItem(STORAGE_KEY, res.data.token);
           setIsLoginVisible(false);
-          setUser(res.data.user);
+          const user = jwt(localStorage.getItem(STORAGE_KEY));
+          setUser(user);
           setAuth(true);
         })
         .catch(err => console.error(err));
@@ -109,7 +108,7 @@ export default function Login() {
       .post(URL+"/register", connection, config)
       .then(res => {
         console.log("res.data", res.data);
-        saveTokenInLocalstorage(res.data.token);
+        localStorage.setItem(STORAGE_KEY, res.data.token);
         setIsLoginVisible(false);
         setUser(res.data.user);
       })
@@ -129,6 +128,14 @@ export default function Login() {
       password: ""
     });
   };
+
+  if(auth){
+    if(localStorage.getItem('token')){
+      console.log(localStorage.getItem('token'));
+    }
+    console.log(user);
+    return <Redirect to='/homeuser'/>
+  } 
 
   return (
     <>
@@ -150,7 +157,8 @@ export default function Login() {
                 <Form.Input fluid  placeholder="Nom" name="name" value={connection.name} onChange={handleChange}/>
               ) : (
                 <br/>
-              )}    
+              )}  
+           
           <Form.Field>
             <Form.Input fluid  placeholder="Email" name="email" value={connection.email} onChange={handleChange}/>
           </Form.Field>

@@ -32,6 +32,7 @@ function App() {
           </Menu>
           <Route exact path='/login' component={Login} />
           <Route exact path='/' component={HomeVisitor} />
+          <Route exact path='/' component={HomeUser} />
         </div>
       </MessageContext.Provider>
       
