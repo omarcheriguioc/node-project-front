@@ -12,6 +12,7 @@ export default function Login() {
     email: "",
     password: ""
   });
+  const [auth, setAuth] = useState(false);
 
   const saveTokenInLocalstorage = token => {
     localStorage.setItem(STORAGE_KEY, token);
@@ -94,6 +95,7 @@ export default function Login() {
           saveTokenInLocalstorage(res.data.token);
           setIsLoginVisible(false);
           setUser(res.data.user);
+          setAuth(true);
         })
         .catch(err => console.error(err));
   };
@@ -131,29 +133,6 @@ export default function Login() {
   return (
     <>
     <div>
-    {/* <Card style={{
-         left: '40%',top: '7%' }}>
-      <Segment>
-          <Form style={{ margin: '5%'}} onSubmit={handleSubmit}>
-              <Form.Group widths="equal">
-              {!isLogin ? (
-                <Form.Input fluid label="Nom" placeholder="Nom" name="name" value={connection.name} onChange={handleChange}/>
-              ) : (
-                <br/>
-              )}
-                <Form.Input fluid label="Email" placeholder="Email" name="email" value={connection.email} onChange={handleChange}/>
-                <Form.Input fluid type="password" label="Mot de passe" placeholder="Mot de passe" name="password" value={connection.password} onChange={handleChange} />
-              </Form.Group>
-              <Form.Group inline>
-                <Form.Radio label="Login" value="login" checked={isLogin === true} onChange={() => setIsLogin(true)}/>
-                <Form.Radio label="Créer un compte" value="register" checked={isLogin === false} onChange={() => setIsLogin(false)}/>
-              </Form.Group>
-              <Form.Button>
-              {isLogin ? "se connecter" : "créer un compte"}
-              </Form.Button>
-          </Form>
-        </Segment>
-    </Card> */}
       <Card style={{
          left: '40%',top: '7%' }}>
         
