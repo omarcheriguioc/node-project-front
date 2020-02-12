@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Icon } from "semantic-ui-react";
 
 export default function HomeUser({ user, disconnect, saveUser }) {
-  
+
     return (
       <>
         <h3>Bonjour {user.name}</h3>
