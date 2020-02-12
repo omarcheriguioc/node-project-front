@@ -7,11 +7,13 @@ import './App.css';
 import HomeUser from './components/HomeUser';
 import  MessageContext  from './components/MessageContext'; 
 import Login from './components/Login';
+import {Menu,Dropdown,Icon} from 'semantic-ui-react';
 
 function App() {
   const [theme, setTheme] = useState({ theme: "day", message: "" });
   const [isLoginVisible, setIsLoginVisible] = useState(true);
   const [user, setUser] = useState({ name: "", email: "" });
+  
   const handleLogin = credentials => {
     console.log("credentials", credentials);
     const config = {
@@ -105,43 +107,27 @@ function App() {
     <>
       <MessageContext.Provider value={theme}>
         <div  className={ theme.theme === "day" ? "App day" : "App night"}>
-          <NavLink exact activeClassName="selected" to='/'> Home </NavLink>
-          <NavLink exact activeClassName="selected" to='/login'> Login </NavLink>
-          <label htmlFor="theme">
-            theme{" "}
-            <select id='name' value={theme.theme} onChange= {e=> setTheme({theme: e.target.value})}>
-              <option value="day"> Jour</option>
-              <option value="night"> Nuit</option>
-            </select>
-          </label>
-          <Route exact path='/home' component={HomeUser} />
+          <Menu>
+            <Menu.Item>
+              <NavLink exact activeClassName="selected" to='/'> Home </NavLink>
+            </Menu.Item>
+            <Menu.Item>
+              <Dropdown text="theme" id='name' value={theme.theme} >
+                <Dropdown.Menu>
+                  <Dropdown.Item value='day' onClick= {e=> setTheme({theme: 'day'})}>Jour</Dropdown.Item>
+                  <Dropdown.Item value='night' onClick= {e=> setTheme({theme: 'night'})}>Nuit</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Menu.Item>
+            <Menu.Item position="right">
+              <Icon name="user"/><NavLink exact activeClassName="selected" to='/login'> Login as author </NavLink>
+            </Menu.Item>
+          </Menu>
           <Route exact path='/login' component={Login} />
+          <Route exact path='/home' component={HomeUser} />
         </div>
       </MessageContext.Provider>
-      <div class="ui three column grid">
-        <div class="column">
-          <div class="ui segment">
-            <img alt="" src=""></img>
-          </div>
-          <div class="ui labeled button" tabindex="0">
-            <div class="ui button">
-              <i class="heart icon"></i> Like
-            </div>
-            <a class="ui basic label">
-              2,048
-            </a>
-          </div>
-          <div class="ui left labeled button" tabindex="0">
-            <a class="ui basic right pointing label">
-              2,048
-            </a>
-            <div class="ui button">
-              <i class="heart icon"></i> Comment
-            </div>
-          </div>
-        </div>
-      </div>
-      {isLoginVisible ? (
+      {/* {isLoginVisible ? (
         <Login login={handleLogin} register={handleRegister} />
       ) : (
         <HomeUser
@@ -149,7 +135,7 @@ function App() {
           disconnect={disconnect}
           saveUser={handleSave}
         />
-      )}
+      )} */}
     </>
     
   );

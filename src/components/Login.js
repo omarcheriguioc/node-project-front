@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Segment, Checkbox, Button, Card} from "semantic-ui-react";
+import { Form, Checkbox, Button, Card, Icon} from "semantic-ui-react";
 
 export default function Login({ login, register }) {
   const [credentials, setCredentials] = useState({
@@ -36,14 +36,14 @@ export default function Login({ login, register }) {
     <>
       <Card style={{
          left: '40%',top: '7%' }}>
+        
         <Form style={{ margin: '5%'}}>
+          <h1 style={{fontWeight:'bold'}}>Login</h1>
           <Form.Field>
-            <label>Email</label>
             <input placeholder='Email' />
           </Form.Field>
           <Form.Field>
-            <label>Password</label>
-            <input placeholder='password' type='password' />
+            <input placeholder="password" type='password' />
           </Form.Field>
           <Form.Field>
             <Checkbox label='I agree to the Terms and Conditions' />

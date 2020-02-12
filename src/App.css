@@ -50,9 +50,9 @@
 
 .night a {
   color: #c19d25;
-  font-size: 16px;
+  /* font-size: 16px; */
   text-decoration: none;
   font-weight: bold;
-  padding-bottom: 10px;
-  padding-right: 10px;
+  /* padding-bottom: 10px;
+  padding-right: 10px; */
 }
