@@ -1,0 +1,17 @@
+{
+    "articles":[{
+            "title": "Le gaz à effet de serre",
+            "content": "lorem ipsum ",
+            "username": "Bernard le coq",
+            "published_at": "02 Février 2019",
+            "image_path": "../img/",
+            "topics": [{
+                "topic_name": "Nature"
+            }],
+            "comments": [{
+                "pseudo_name": "Author 1",
+                "body": "ce qui ne tue pas rend plus fort",
+                "date": "05 Avril 2019"
+            }]
+        }]
+}
