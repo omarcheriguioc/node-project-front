@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Form, Segment, Card } from "semantic-ui-react";
 import axios from "axios";
 
-import {STORAGE_KEY} from '../settings/settings';
+import {STORAGE_KEY, URL} from '../settings/settings';
+import { Form, Checkbox, Button, Card, Icon, Segment} from "semantic-ui-react";
 
-export default function Login({ login, register }) {
+export default function Login() {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
   const [user, setUser] = useState({ name: "", email: "" });
-  const [credentials, setCredentials] = useState({
+  const [connection, setConnection] = useState({
     name: "",
     email: "",
     password: ""
@@ -72,23 +72,23 @@ export default function Login({ login, register }) {
   };
   const [isLogin, setIsLogin] = useState(true);
 
-  const handleSubmit = e => {
+ const handleSubmit = e => {
     e.preventDefault();
     if (isLogin) {
-      login(credentials);
+      // login(connection);
     } else {
-      register(credentials);
+      // register(connection);
     }
     emptyFormFields();
   };
   
-  const handleLogin = credentials => {
-    console.log("credentials", credentials);
+  const handleLogin = () => {
+    console.log("connection", connection);
     const config = {
       "Content-Type": "application/json"
     };
     axios
-      .post(URL+"/login", credentials, config)
+      .post(URL+"/login", connection, config)
         .then(res => {
           console.log("res.data", res.data);
           saveTokenInLocalstorage(res.data.token);
@@ -98,13 +98,13 @@ export default function Login({ login, register }) {
         .catch(err => console.error(err));
   };
 
-  const handleRegister = credentials => {
-    console.log("handleRegister credentials", credentials);
+  const handleRegister = () => {
+    console.log("handleRegister connection", connection);
     const config = {
       "Content-Type": "application/json"
     };
     axios
-      .post(URL+"/register", credentials, config)
+      .post(URL+"/register", connection, config)
       .then(res => {
         console.log("res.data", res.data);
         saveTokenInLocalstorage(res.data.token);
@@ -116,11 +116,12 @@ export default function Login({ login, register }) {
 
 
   const handleChange = e => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setConnection({ ...connection, [e.target.name]: e.target.value });
+    console.log(connection);
   };
 
   const emptyFormFields = () => {
-    setCredentials({
+    setConnection({
       name: "",
       email: "",
       password: ""
@@ -129,18 +130,19 @@ export default function Login({ login, register }) {
 
   return (
     <>
-    <Card style={{
+    <div>
+    {/* <Card style={{
          left: '40%',top: '7%' }}>
       <Segment>
           <Form style={{ margin: '5%'}} onSubmit={handleSubmit}>
               <Form.Group widths="equal">
               {!isLogin ? (
-                <Form.Input fluid label="Nom" placeholder="Nom" name="name" value={credentials.name} onChange={handleChange}/>
+                <Form.Input fluid label="Nom" placeholder="Nom" name="name" value={connection.name} onChange={handleChange}/>
               ) : (
                 <br/>
               )}
-                <Form.Input fluid label="Email" placeholder="Email" name="email" value={credentials.email} onChange={handleChange}/>
-                <Form.Input fluid type="password" label="Mot de passe" placeholder="Mot de passe" name="password" value={credentials.password} onChange={handleChange} />
+                <Form.Input fluid label="Email" placeholder="Email" name="email" value={connection.email} onChange={handleChange}/>
+                <Form.Input fluid type="password" label="Mot de passe" placeholder="Mot de passe" name="password" value={connection.password} onChange={handleChange} />
               </Form.Group>
               <Form.Group inline>
                 <Form.Radio label="Login" value="login" checked={isLogin === true} onChange={() => setIsLogin(true)}/>
@@ -151,7 +153,47 @@ export default function Login({ login, register }) {
               </Form.Button>
           </Form>
         </Segment>
-    </Card>
+    </Card> */}
+      <Card style={{
+         left: '40%',top: '7%' }}>
+        
+        <Form style={{ margin: '5%'}} onSubmit={handleSubmit}>
+          <Form.Group inline>
+            <Form.Radio label="Login" value="login" checked={isLogin === true} onChange={() => setIsLogin(true)}/>
+            <Form.Radio label="Créer un compte" value="register" checked={isLogin === false} onChange={() => setIsLogin(false)}/>
+          </Form.Group>
+          {!isLogin ? (
+                <h1 style={{fontWeight:'bold'}}>Register </h1>
+                 ) : (
+                <h1 style={{fontWeight:'bold'}}>Login</h1>
+              )}
+          {!isLogin ? (
+                <Form.Input fluid  placeholder="Nom" name="name" value={connection.name} onChange={handleChange}/>
+              ) : (
+                <br/>
+              )}    
+          <Form.Field>
+            <Form.Input fluid  placeholder="Email" name="email" value={connection.email} onChange={handleChange}/>
+          </Form.Field>
+          <Form.Field>
+            <Form.Input fluid  type ='password' placeholder="password" name="password" value={connection.password} onChange={handleChange}/>
+          </Form.Field>
+          <Form.Field>
+            <Checkbox label='I agree to the Terms and Conditions' />
+          </Form.Field>
+          {!isLogin ? (
+              <Form.Button onClick={handleRegister}>
+              { "Créer un compte"}
+              </Form.Button>
+                ) : (
+              <Form.Button onClick={handleLogin}>
+                  {"Se connecter" }
+              </Form.Button>
+            )}
+        </Form>
+      </Card>
+    </div>
+
     </>
   );
 }
