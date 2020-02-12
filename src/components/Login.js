@@ -134,7 +134,7 @@ export default function Login() {
       console.log(localStorage.getItem('token'));
     }
     console.log(user);
-    return <Redirect to='/homeuser'/>
+    return <Redirect to='/home'/>
   } 
 
   return (
